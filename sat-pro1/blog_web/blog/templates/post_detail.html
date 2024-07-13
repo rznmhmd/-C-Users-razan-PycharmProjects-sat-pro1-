@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ post.title }}</title>
+</head>
+<body>
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.content }}</p>
+    <p>Category: {{ post.category }}</p>
+    <p>Published on: {{ post.date_published }}</p>
+    <p>Author: {{ post.author }}</p>
+
+    <hr>
+
+    <h2>Comments</h2>
+    {% if comments %}
+        <ul>
+            {% for comment in comments %}
+                <li>
+                    <p><strong>{{ comment.user.username }}</strong> - {{ comment.date_posted }}</p>
+                    <p>{{ comment.content }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No comments yet.</p>
+    {% endif %}
+
+    <hr>
+
+    <!-- Form to submit new comments -->
+    <h3>Add a Comment</h3>
+    <form method="post" action="{% url 'add_comment' post.id %}">
+        {% csrf_token %}
+        <textarea name="content" rows="4" cols="50"></textarea><br>
+        <input type="submit" value="Submit">
+    </form>
+
+</body>
+</html>
